@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- ============ SEO BÁSICO ============ -->
+  <title>SmartPath Student AI — Descubre tu carrera ideal con Inteligencia Artificial</title>
+  <meta name="description" content="Responde una encuesta inteligente basada en IA y recibe recomendaciones de carrera personalizadas según tus habilidades, intereses y personalidad. Resultados en menos de 5 minutos." />
+  <meta name="keywords" content="orientación vocacional, test vocacional, inteligencia artificial, carrera profesional, RIASEC, estudiantes, EdTech" />
+  <meta name="author" content="SmartPath Student AI" />
+  <meta name="theme-color" content="#6C63FF" />
+  <link rel="canonical" href="https://example.github.io/smartpath-student-ai/" />
+
+  <!-- Open Graph / Redes sociales -->
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="SmartPath Student AI — Tu carrera ideal con IA" />
+  <meta property="og:description" content="Test vocacional inteligente. Descubre la carrera que mejor encaja con tu perfil en menos de 5 minutos." />
+  <meta property="og:image" content="assets/hero.svg" />
+  <meta name="twitter:card" content="summary_large_image" />
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
+
+  <!-- Tipografías -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Sora:wght@500;600;700;800&display=swap" rel="stylesheet" />
+
+  <!-- Estilos -->
+  <link rel="stylesheet" href="styles.css" />
+
+  <!-- Datos estructurados (SEO) -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "SmartPath Student AI",
+    "applicationCategory": "EducationalApplication",
+    "operatingSystem": "Web",
+    "description": "Orientación vocacional inteligente basada en IA para estudiantes.",
+    "offers": { "@type": "Offer", "price": "0" }
+  }
+  </script>
+</head>
+
+<body>
+  <!-- ====================== NAVBAR ====================== -->
+  <header class="nav" id="nav">
+    <div class="container nav__inner">
+      <a href="#hero" class="brand" aria-label="SmartPath Student AI - Inicio">
+        <span class="brand__mark" aria-hidden="true">
+          <svg viewBox="0 0 24 24" width="22" height="22"><path d="M12 2 4 6v6c0 5 3.4 8.5 8 10 4.6-1.5 8-5 8-10V6l-8-4Z" fill="url(#bg)"/><path d="M9 12.5l2 2 4-4.5" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><defs><linearGradient id="bg" x1="0" y1="0" x2="24" y2="24"><stop stop-color="#6C63FF"/><stop offset="1" stop-color="#22D3EE"/></linearGradient></defs></svg>
+        </span>
+        <span class="brand__name">SmartPath <em>Student AI</em></span>
+      </a>
+
+      <nav class="nav__links" aria-label="Navegación principal">
+        <a href="#como-funciona">Cómo funciona</a>
+        <a href="#beneficios">Beneficios</a>
+        <a href="#stats">Resultados</a>
+      </nav>
+
+      <div class="nav__actions">
+        <button class="theme-toggle" id="themeToggle" aria-label="Cambiar tema claro/oscuro" title="Cambiar tema">
+          <svg class="icon-sun" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><circle cx="12" cy="12" r="4.5" fill="currentColor"/><g stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M19.1 4.9 17 7M7 17l-2.1 2.1"/></g></svg>
+          <svg class="icon-moon" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4 8 8 0 1 0 20 14.5Z" fill="currentColor"/></svg>
+        </button>
+        <button class="btn btn--primary btn--sm" data-action="start-test">Realizar Test</button>
+      </div>
+    </div>
+  </header>
+
+  <main id="landing">
+    <!-- ====================== HERO ====================== -->
+    <section class="hero" id="hero">
+      <div class="container hero__grid">
+        <div class="hero__copy">
+          <span class="eyebrow"><span class="dot"></span> Orientación vocacional con IA</span>
+          <h1 class="hero__title">
+            Descubre la carrera ideal para tu futuro con
+            <span class="grad">Inteligencia Artificial</span>
+          </h1>
+          <p class="hero__subtitle">
+            Responde una serie de preguntas inteligentes y obtén recomendaciones
+            personalizadas basadas en tus habilidades, intereses y preferencias profesionales.
+          </p>
+          <div class="hero__cta">
+            <button class="btn btn--primary btn--lg" data-action="start-test">
+              Realizar Test
+              <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </button>
+            <a class="btn btn--ghost btn--lg" href="#como-funciona">Conocer más</a>
+          </div>
+          <div class="hero__trust">
+            <div class="avatars" aria-hidden="true"><span></span><span></span><span></span><span></span></div>
+            <p><strong>10,000+</strong> estudiantes ya encontraron su rumbo</p>
+          </div>
+        </div>
+
+        <!-- SIGNATURE: constelación neural perfil → carreras -->
+        <div class="hero__visual">
+          <div class="orbit-card">
+            <canvas id="neuralCanvas" width="520" height="520" aria-hidden="true"></canvas>
+            <div class="orbit-card__chip chip--top">Perfil analizado</div>
+            <div class="orbit-card__chip chip--bottom">95% afinidad</div>
+          </div>
+        </div>
+      </div>
+      <div class="hero__glow" aria-hidden="true"></div>
+    </section>
+
+    <!-- ====================== CÓMO FUNCIONA ====================== -->
+    <section class="section" id="como-funciona">
+      <div class="container">
+        <div class="section__head reveal">
+          <span class="eyebrow eyebrow--center"><span class="dot"></span> Proceso</span>
+          <h2 class="section__title">¿Cómo funciona?</h2>
+          <p class="section__lead">Tres pasos sencillos entre tú y una decisión con respaldo de datos.</p>
+        </div>
+
+        <ol class="steps">
+          <li class="step reveal">
+            <span class="step__num">1</span>
+            <span class="step__icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" width="26" height="26"><path d="M4 5h16M4 12h10M4 19h7" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><circle cx="19" cy="17" r="3" stroke="currentColor" stroke-width="2" fill="none"/></svg>
+            </span>
+            <h3>Responde preguntas</h3>
+            <p>25 preguntas inteligentes sobre intereses, habilidades y personalidad.</p>
+          </li>
+          <li class="step reveal" style="--d:.1s">
+            <span class="step__num">2</span>
+            <span class="step__icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" width="26" height="26"><path d="M12 3v4M12 17v4M3 12h4M17 12h4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><circle cx="12" cy="12" r="3.5" stroke="currentColor" stroke-width="2" fill="none"/><circle cx="12" cy="12" r="8" stroke="currentColor" stroke-width="1.4" fill="none" opacity=".4"/></svg>
+            </span>
+            <h3>Analizamos tu perfil</h3>
+            <p>Nuestro motor pondera tus respuestas con un modelo RIASEC + habilidades.</p>
+          </li>
+          <li class="step reveal" style="--d:.2s">
+            <span class="step__num">3</span>
+            <span class="step__icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" width="26" height="26"><path d="M12 2 4 6v6c0 5 3.4 8.5 8 10 4.6-1.5 8-5 8-10V6l-8-4Z" stroke="currentColor" stroke-width="2" fill="none"/><path d="M9 12.5l2 2 4-4.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg>
+            </span>
+            <h3>Recibe tu carrera ideal</h3>
+            <p>Una recomendación principal, tu nivel de afinidad y 3 alternativas.</p>
+          </li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- ====================== BENEFICIOS ====================== -->
+    <section class="section section--alt" id="beneficios">
+      <div class="container">
+        <div class="section__head reveal">
+          <span class="eyebrow eyebrow--center"><span class="dot"></span> Por qué SmartPath</span>
+          <h2 class="section__title">Pensado para decidir con claridad</h2>
+          <p class="section__lead">Todo lo que necesitas para pasar de la duda a un plan.</p>
+        </div>
+
+        <div class="benefits" id="benefits"><!-- tarjetas inyectadas por JS --></div>
+      </div>
+    </section>
+
+    <!-- ====================== ESTADÍSTICAS ====================== -->
+    <section class="section stats" id="stats">
+      <div class="container">
+        <div class="stats__grid">
+          <div class="stat reveal">
+            <span class="stat__num" data-count="10000" data-suffix="+">0</span>
+            <span class="stat__label">Estudiantes orientados</span>
+          </div>
+          <div class="stat reveal" style="--d:.08s">
+            <span class="stat__num" data-count="95" data-suffix="%">0</span>
+            <span class="stat__label">Satisfacción</span>
+          </div>
+          <div class="stat reveal" style="--d:.16s">
+            <span class="stat__num" data-count="50" data-suffix="+">0</span>
+            <span class="stat__label">Carreras analizadas</span>
+          </div>
+          <div class="stat reveal" style="--d:.24s">
+            <span class="stat__num" data-count="5" data-prefix="&lt;" data-suffix=" min">0</span>
+            <span class="stat__label">Para tu resultado</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ====================== CTA FINAL ====================== -->
+    <section class="section">
+      <div class="container">
+        <div class="cta reveal">
+          <div class="cta__glow" aria-hidden="true"></div>
+          <h2 class="cta__title">Comienza hoy a descubrir tu futuro</h2>
+          <p class="cta__lead">Sin registros ni costos. Solo tú, 25 preguntas y una dirección clara.</p>
+          <button class="btn btn--light btn--lg" data-action="start-test">Realizar Test</button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ====================== FOOTER ====================== -->
+  <footer class="footer">
+    <div class="container footer__inner">
+      <a href="#hero" class="brand brand--footer">
+        <span class="brand__mark" aria-hidden="true">
+          <svg viewBox="0 0 24 24" width="20" height="20"><path d="M12 2 4 6v6c0 5 3.4 8.5 8 10 4.6-1.5 8-5 8-10V6l-8-4Z" fill="url(#bg2)"/><path d="M9 12.5l2 2 4-4.5" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><defs><linearGradient id="bg2" x1="0" y1="0" x2="24" y2="24"><stop stop-color="#6C63FF"/><stop offset="1" stop-color="#22D3EE"/></linearGradient></defs></svg>
+        </span>
+        <span class="brand__name">SmartPath <em>Student AI</em></span>
+      </a>
+      <p class="footer__note">Orientación vocacional con IA · Hecho para estudiantes.</p>
+      <p class="footer__copy">© <span id="year"></span> SmartPath Student AI</p>
+    </div>
+  </footer>
+
+  <!-- ====================== APP: WIZARD ENCUESTA ====================== -->
+  <div class="app" id="app" aria-hidden="true" role="dialog" aria-modal="true" aria-label="Test vocacional inteligente">
+    <div class="app__bar">
+      <div class="container app__bar-inner">
+        <div class="brand brand--app">
+          <span class="brand__mark" aria-hidden="true">
+            <svg viewBox="0 0 24 24" width="20" height="20"><path d="M12 2 4 6v6c0 5 3.4 8.5 8 10 4.6-1.5 8-5 8-10V6l-8-4Z" fill="url(#bg3)"/><path d="M9 12.5l2 2 4-4.5" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><defs><linearGradient id="bg3" x1="0" y1="0" x2="24" y2="24"><stop stop-color="#6C63FF"/><stop offset="1" stop-color="#22D3EE"/></linearGradient></defs></svg>
+          </span>
+          <span class="brand__name">SmartPath</span>
+        </div>
+
+        <div class="progress" id="progressWrap">
+          <div class="progress__track"><div class="progress__bar" id="progressBar"></div></div>
+          <span class="progress__label" id="progressLabel">Pregunta 1 de 25</span>
+        </div>
+
+        <button class="app__close" id="appClose" aria-label="Cerrar test">
+          <svg viewBox="0 0 24 24" width="22" height="22"><path d="M6 6l12 12M18 6 6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <div class="app__stage">
+      <div class="container">
+        <!-- Pantalla de preguntas -->
+        <div class="quiz" id="quiz">
+          <span class="quiz__category" id="quizCategory">Intereses</span>
+          <h2 class="quiz__question" id="quizQuestion">Cargando…</h2>
+          <div class="quiz__options" id="quizOptions" role="radiogroup" aria-label="Opciones de respuesta"></div>
+          <p class="quiz__hint" id="quizHint" aria-live="polite"></p>
+          <div class="quiz__nav">
+            <button class="btn btn--ghost" id="btnBack">
+              <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M19 12H5M11 18l-6-6 6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              Anterior
+            </button>
+            <button class="btn btn--primary" id="btnNext" disabled>
+              Siguiente
+              <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </button>
+          </div>
+        </div>
+
+        <!-- Pantalla de análisis (loading) -->
+        <div class="analyzing" id="analyzing" hidden>
+          <div class="analyzing__ring" aria-hidden="true"><span></span><span></span><span></span></div>
+          <h2>Analizando tu perfil…</h2>
+          <p id="analyzingStep">Procesando respuestas</p>
+        </div>
+
+        <!-- Pantalla de resultados -->
+        <div class="results" id="results" hidden></div>
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+  <script src="chatbot.js"></script>
+</body>
+</html>
