@@ -10,13 +10,14 @@
   <meta name="keywords" content="orientación vocacional, test vocacional, inteligencia artificial, carrera profesional, RIASEC, estudiantes, EdTech" />
   <meta name="author" content="SmartPath Student AI" />
   <meta name="theme-color" content="#6C63FF" />
-  <link rel="canonical" href="https://example.github.io/smartpath-student-ai/" />
+  <link rel="canonical" href="https://cesartapia10.github.io/smartpath-student-ai/" />
 
-  <!-- Open Graph / Redes sociales -->
+  <!-- Open Graph -->
   <meta property="og:type" content="website" />
   <meta property="og:title" content="SmartPath Student AI — Tu carrera ideal con IA" />
   <meta property="og:description" content="Test vocacional inteligente. Descubre la carrera que mejor encaja con tu perfil en menos de 5 minutos." />
   <meta property="og:image" content="assets/hero.svg" />
+  <meta property="og:url" content="https://cesartapia10.github.io/smartpath-student-ai/" />
   <meta name="twitter:card" content="summary_large_image" />
 
   <!-- Favicon -->
@@ -30,7 +31,7 @@
   <!-- Estilos -->
   <link rel="stylesheet" href="styles.css" />
 
-  <!-- Datos estructurados (SEO) -->
+  <!-- Datos estructurados -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -62,17 +63,30 @@
       </nav>
 
       <div class="nav__actions">
-        <button class="theme-toggle" id="themeToggle" aria-label="Cambiar tema claro/oscuro" title="Cambiar tema">
+        <button class="theme-toggle" id="themeToggle" aria-label="Cambiar tema claro/oscuro">
           <svg class="icon-sun" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><circle cx="12" cy="12" r="4.5" fill="currentColor"/><g stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M19.1 4.9 17 7M7 17l-2.1 2.1"/></g></svg>
           <svg class="icon-moon" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4 8 8 0 1 0 20 14.5Z" fill="currentColor"/></svg>
         </button>
-        <button class="btn btn--primary btn--sm" data-action="start-test">Realizar Test</button>
+
+        <!-- Estado NO autenticado -->
+        <button class="btn btn--ghost btn--sm" id="navLoginBtn" data-action="open-auth">Iniciar sesión</button>
+        <button class="btn btn--primary btn--sm" id="navRegisterBtn" data-action="open-auth" data-tab="register">Registrarse</button>
+
+        <!-- Estado autenticado (oculto hasta login) -->
+        <div class="user-pill" id="userPill" hidden>
+          <span class="user-pill__avatar" id="userAvatar" aria-hidden="true">U</span>
+          <span class="user-pill__name" id="userDisplayName">Usuario</span>
+          <button class="user-pill__logout" id="logoutBtn" aria-label="Cerrar sesión" title="Cerrar sesión">
+            <svg viewBox="0 0 24 24" width="16" height="16"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+        </div>
       </div>
     </div>
   </header>
 
+  <!-- ====================== LANDING ====================== -->
   <main id="landing">
-    <!-- ====================== HERO ====================== -->
+    <!-- HERO -->
     <section class="hero" id="hero">
       <div class="container hero__grid">
         <div class="hero__copy">
@@ -98,19 +112,131 @@
           </div>
         </div>
 
-        <!-- SIGNATURE: constelación neural perfil → carreras -->
-        <div class="hero__visual">
-          <div class="orbit-card">
-            <canvas id="neuralCanvas" width="520" height="520" aria-hidden="true"></canvas>
-            <div class="orbit-card__chip chip--top">Perfil analizado</div>
-            <div class="orbit-card__chip chip--bottom">95% afinidad</div>
+        <!-- CARD DE AUTH INLINE (estilo Liflow OS) -->
+        <div class="hero__visual" id="heroFormWrap">
+
+          <!-- ── Card para usuario NO autenticado ── -->
+          <div class="hero-card" id="heroAuthCard">
+            <div class="hero-card__head">
+              <span class="hero-card__avatar" aria-hidden="true">
+                <svg viewBox="0 0 24 24" width="32" height="32"><path d="M12 2 4 6v6c0 5 3.4 8.5 8 10 4.6-1.5 8-5 8-10V6l-8-4Z" fill="url(#hcg)"/><path d="M9 12.5l2 2 4-4.5" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><defs><linearGradient id="hcg" x1="0" y1="0" x2="24" y2="24"><stop stop-color="#6C63FF"/><stop offset="1" stop-color="#22D3EE"/></linearGradient></defs></svg>
+              </span>
+              <h2 class="hero-card__title">Haz <span class="grad">gratis</span> tu diagnóstico</h2>
+              <p class="hero-card__sub">Recibe tu orientación vocacional personalizada con IA.</p>
+            </div>
+
+            <!-- Tabs compactos -->
+            <div class="hero-card__tabs" role="tablist">
+              <button class="hc-tab is-active" id="hcTabLogin" role="tab" aria-selected="true">Iniciar sesión</button>
+              <button class="hc-tab" id="hcTabReg" role="tab" aria-selected="false">Registrarse</button>
+              <span class="hc-tab__bar" id="hcTabBar" aria-hidden="true"></span>
+            </div>
+
+            <!-- Panel Login -->
+            <div class="hero-card__panel is-active" id="hcPanelLogin">
+              <form class="hc-form" id="hcFormLogin" novalidate>
+                <div class="hc-field">
+                  <svg class="hc-field__icon" viewBox="0 0 24 24" width="17" height="17" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="3" stroke="currentColor" stroke-width="2" fill="none"/><path d="M2 8l10 6 10-6" stroke="currentColor" stroke-width="2"/></svg>
+                  <input class="hc-input" id="hcLoginEmail" type="email" placeholder="tu@correo.com" autocomplete="email" required />
+                </div>
+                <div class="hc-field">
+                  <svg class="hc-field__icon" viewBox="0 0 24 24" width="17" height="17" aria-hidden="true"><rect x="3" y="11" width="18" height="11" rx="2" stroke="currentColor" stroke-width="2" fill="none"/><path d="M7 11V7a5 5 0 0 1 10 0v4" stroke="currentColor" stroke-width="2"/></svg>
+                  <input class="hc-input" id="hcLoginPass" type="password" placeholder="Tu contraseña" autocomplete="current-password" required />
+                  <button type="button" class="hc-eye" data-target="hcLoginPass" aria-label="Ver contraseña">
+                    <svg viewBox="0 0 24 24" width="16" height="16"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7S1 12 1 12Z" stroke="currentColor" stroke-width="2" fill="none"/><circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="2" fill="none"/></svg>
+                  </button>
+                </div>
+                <div class="hc-alert" id="hcLoginAlert" hidden></div>
+                <button type="submit" class="btn btn--primary btn--full hc-submit" id="hcLoginBtn">
+                  <span class="btn-label">Iniciar sesión →</span>
+                  <span class="btn-spinner" hidden aria-hidden="true"></span>
+                </button>
+              </form>
+              <p class="hc-switch">¿No tienes cuenta? <button type="button" class="link" data-hc-tab="reg">Regístrate gratis</button></p>
+            </div>
+
+            <!-- Panel Registro -->
+            <div class="hero-card__panel" id="hcPanelReg" hidden>
+              <form class="hc-form" id="hcFormReg" novalidate>
+                <div class="hc-row">
+                  <div class="hc-field">
+                    <svg class="hc-field__icon" viewBox="0 0 24 24" width="17" height="17" aria-hidden="true"><circle cx="12" cy="8" r="4" stroke="currentColor" stroke-width="2" fill="none"/><path d="M4 20c0-3.3 3.6-6 8-6s8 2.7 8 6" stroke="currentColor" stroke-width="2" fill="none"/></svg>
+                    <input class="hc-input" id="hcRegNombres" type="text" placeholder="Nombres" autocomplete="given-name" required />
+                  </div>
+                  <div class="hc-field">
+                    <svg class="hc-field__icon" viewBox="0 0 24 24" width="17" height="17" aria-hidden="true"><circle cx="12" cy="8" r="4" stroke="currentColor" stroke-width="2" fill="none"/><path d="M4 20c0-3.3 3.6-6 8-6s8 2.7 8 6" stroke="currentColor" stroke-width="2" fill="none"/></svg>
+                    <input class="hc-input" id="hcRegApellidos" type="text" placeholder="Apellidos" autocomplete="family-name" required />
+                  </div>
+                </div>
+                <div class="hc-field">
+                  <svg class="hc-field__icon" viewBox="0 0 24 24" width="17" height="17" aria-hidden="true"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="2" fill="none"/><path d="M2 12h20M12 2a15 15 0 0 1 0 20M12 2a15 15 0 0 0 0 20" stroke="currentColor" stroke-width="2" fill="none"/></svg>
+                  <select class="hc-input hc-select" id="hcRegPais" required>
+                    <option value="">Tu país…</option>
+                    <option>Perú</option><option>Argentina</option><option>Bolivia</option>
+                    <option>Brasil</option><option>Chile</option><option>Colombia</option>
+                    <option>Costa Rica</option><option>Ecuador</option><option>El Salvador</option>
+                    <option>España</option><option>Guatemala</option><option>Honduras</option>
+                    <option>México</option><option>Nicaragua</option><option>Panamá</option>
+                    <option>Paraguay</option><option>Rep. Dominicana</option><option>Uruguay</option>
+                    <option>Venezuela</option><option>Otro</option>
+                  </select>
+                </div>
+                <div class="hc-field">
+                  <svg class="hc-field__icon" viewBox="0 0 24 24" width="17" height="17" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="3" stroke="currentColor" stroke-width="2" fill="none"/><path d="M2 8l10 6 10-6" stroke="currentColor" stroke-width="2"/></svg>
+                  <input class="hc-input" id="hcRegEmail" type="email" placeholder="tu@correo.com" autocomplete="email" required />
+                </div>
+                <div class="hc-field">
+                  <svg class="hc-field__icon" viewBox="0 0 24 24" width="17" height="17" aria-hidden="true"><rect x="3" y="11" width="18" height="11" rx="2" stroke="currentColor" stroke-width="2" fill="none"/><path d="M7 11V7a5 5 0 0 1 10 0v4" stroke="currentColor" stroke-width="2"/></svg>
+                  <input class="hc-input" id="hcRegPass" type="password" placeholder="Contraseña (mín. 8 caracteres)" autocomplete="new-password" required />
+                  <button type="button" class="hc-eye" data-target="hcRegPass" aria-label="Ver contraseña">
+                    <svg viewBox="0 0 24 24" width="16" height="16"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7S1 12 1 12Z" stroke="currentColor" stroke-width="2" fill="none"/><circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="2" fill="none"/></svg>
+                  </button>
+                </div>
+                <div class="hc-field">
+                  <svg class="hc-field__icon" viewBox="0 0 24 24" width="17" height="17" aria-hidden="true"><rect x="3" y="11" width="18" height="11" rx="2" stroke="currentColor" stroke-width="2" fill="none"/><path d="M7 11V7a5 5 0 0 1 10 0v4" stroke="currentColor" stroke-width="2"/></svg>
+                  <input class="hc-input" id="hcRegConfirm" type="password" placeholder="Confirmar contraseña" autocomplete="new-password" required />
+                </div>
+                <div class="hc-alert" id="hcRegAlert" hidden></div>
+                <button type="submit" class="btn btn--primary btn--full hc-submit" id="hcRegBtn">
+                  <span class="btn-label">Crear cuenta gratis →</span>
+                  <span class="btn-spinner" hidden aria-hidden="true"></span>
+                </button>
+              </form>
+              <p class="hc-switch">¿Ya tienes cuenta? <button type="button" class="link" data-hc-tab="login">Inicia sesión</button></p>
+            </div>
+
+            <p class="hero-card__trust">
+              <svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true"><rect x="3" y="11" width="18" height="11" rx="2" stroke="currentColor" stroke-width="1.8" fill="none"/><path d="M7 11V7a5 5 0 0 1 10 0v4" stroke="currentColor" stroke-width="1.8"/></svg>
+              Tus datos están protegidos. No compartimos tu información.
+            </p>
           </div>
-        </div>
+
+          <!-- ── Card para usuario YA autenticado (oculta hasta login) ── -->
+          <div class="hero-card hero-card--welcome" id="heroWelcomeCard" hidden>
+            <div class="hero-card__head" style="text-align:center">
+              <span class="welcome-avatar" id="welcomeAvatar" aria-hidden="true">U</span>
+              <h2 class="hero-card__title" style="margin-top:.9rem">¡Hola, <span id="welcomeName">Estudiante</span>! 👋</h2>
+              <p class="hero-card__sub">Todo listo para descubrir tu carrera ideal.</p>
+            </div>
+            <ul class="welcome-checks">
+              <li><svg viewBox="0 0 24 24" width="17" height="17"><path d="M5 12.5l4 4 10-10" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg> 25 preguntas inteligentes</li>
+              <li><svg viewBox="0 0 24 24" width="17" height="17"><path d="M5 12.5l4 4 10-10" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg> Carrera con mayor afinidad + 3 alternativas</li>
+              <li><svg viewBox="0 0 24 24" width="17" height="17"><path d="M5 12.5l4 4 10-10" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg> Resultado guardado en tu cuenta</li>
+            </ul>
+            <button class="btn btn--primary btn--full btn--lg" style="margin-top:1.4rem" data-action="start-test">
+              Comenzar el test →
+            </button>
+            <p class="hc-switch" style="margin-top:1rem">
+              <button type="button" class="link" id="heroLogoutBtn">Cerrar sesión</button>
+            </p>
+          </div>
+
+        </div><!-- /hero__visual -->
       </div>
       <div class="hero__glow" aria-hidden="true"></div>
     </section>
 
-    <!-- ====================== CÓMO FUNCIONA ====================== -->
+    <!-- CÓMO FUNCIONA -->
     <section class="section" id="como-funciona">
       <div class="container">
         <div class="section__head reveal">
@@ -118,29 +244,22 @@
           <h2 class="section__title">¿Cómo funciona?</h2>
           <p class="section__lead">Tres pasos sencillos entre tú y una decisión con respaldo de datos.</p>
         </div>
-
         <ol class="steps">
           <li class="step reveal">
             <span class="step__num">1</span>
-            <span class="step__icon" aria-hidden="true">
-              <svg viewBox="0 0 24 24" width="26" height="26"><path d="M4 5h16M4 12h10M4 19h7" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><circle cx="19" cy="17" r="3" stroke="currentColor" stroke-width="2" fill="none"/></svg>
-            </span>
-            <h3>Responde preguntas</h3>
-            <p>25 preguntas inteligentes sobre intereses, habilidades y personalidad.</p>
+            <span class="step__icon" aria-hidden="true"><svg viewBox="0 0 24 24" width="26" height="26"><path d="M4 5h16M4 12h10M4 19h7" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><circle cx="19" cy="17" r="3" stroke="currentColor" stroke-width="2" fill="none"/></svg></span>
+            <h3>Regístrate gratis</h3>
+            <p>Crea tu cuenta en segundos. Guardamos tu perfil para futuras consultas.</p>
           </li>
           <li class="step reveal" style="--d:.1s">
             <span class="step__num">2</span>
-            <span class="step__icon" aria-hidden="true">
-              <svg viewBox="0 0 24 24" width="26" height="26"><path d="M12 3v4M12 17v4M3 12h4M17 12h4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><circle cx="12" cy="12" r="3.5" stroke="currentColor" stroke-width="2" fill="none"/><circle cx="12" cy="12" r="8" stroke="currentColor" stroke-width="1.4" fill="none" opacity=".4"/></svg>
-            </span>
+            <span class="step__icon" aria-hidden="true"><svg viewBox="0 0 24 24" width="26" height="26"><path d="M12 3v4M12 17v4M3 12h4M17 12h4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><circle cx="12" cy="12" r="3.5" stroke="currentColor" stroke-width="2" fill="none"/><circle cx="12" cy="12" r="8" stroke="currentColor" stroke-width="1.4" fill="none" opacity=".4"/></svg></span>
             <h3>Analizamos tu perfil</h3>
             <p>Nuestro motor pondera tus respuestas con un modelo RIASEC + habilidades.</p>
           </li>
           <li class="step reveal" style="--d:.2s">
             <span class="step__num">3</span>
-            <span class="step__icon" aria-hidden="true">
-              <svg viewBox="0 0 24 24" width="26" height="26"><path d="M12 2 4 6v6c0 5 3.4 8.5 8 10 4.6-1.5 8-5 8-10V6l-8-4Z" stroke="currentColor" stroke-width="2" fill="none"/><path d="M9 12.5l2 2 4-4.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg>
-            </span>
+            <span class="step__icon" aria-hidden="true"><svg viewBox="0 0 24 24" width="26" height="26"><path d="M12 2 4 6v6c0 5 3.4 8.5 8 10 4.6-1.5 8-5 8-10V6l-8-4Z" stroke="currentColor" stroke-width="2" fill="none"/><path d="M9 12.5l2 2 4-4.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg></span>
             <h3>Recibe tu carrera ideal</h3>
             <p>Una recomendación principal, tu nivel de afinidad y 3 alternativas.</p>
           </li>
@@ -148,7 +267,7 @@
       </div>
     </section>
 
-    <!-- ====================== BENEFICIOS ====================== -->
+    <!-- BENEFICIOS -->
     <section class="section section--alt" id="beneficios">
       <div class="container">
         <div class="section__head reveal">
@@ -156,42 +275,29 @@
           <h2 class="section__title">Pensado para decidir con claridad</h2>
           <p class="section__lead">Todo lo que necesitas para pasar de la duda a un plan.</p>
         </div>
-
-        <div class="benefits" id="benefits"><!-- tarjetas inyectadas por JS --></div>
+        <div class="benefits" id="benefits"></div>
       </div>
     </section>
 
-    <!-- ====================== ESTADÍSTICAS ====================== -->
+    <!-- ESTADÍSTICAS -->
     <section class="section stats" id="stats">
       <div class="container">
         <div class="stats__grid">
-          <div class="stat reveal">
-            <span class="stat__num" data-count="10000" data-suffix="+">0</span>
-            <span class="stat__label">Estudiantes orientados</span>
-          </div>
-          <div class="stat reveal" style="--d:.08s">
-            <span class="stat__num" data-count="95" data-suffix="%">0</span>
-            <span class="stat__label">Satisfacción</span>
-          </div>
-          <div class="stat reveal" style="--d:.16s">
-            <span class="stat__num" data-count="50" data-suffix="+">0</span>
-            <span class="stat__label">Carreras analizadas</span>
-          </div>
-          <div class="stat reveal" style="--d:.24s">
-            <span class="stat__num" data-count="5" data-prefix="&lt;" data-suffix=" min">0</span>
-            <span class="stat__label">Para tu resultado</span>
-          </div>
+          <div class="stat reveal"><span class="stat__num" data-count="10000" data-suffix="+">0</span><span class="stat__label">Estudiantes orientados</span></div>
+          <div class="stat reveal" style="--d:.08s"><span class="stat__num" data-count="95" data-suffix="%">0</span><span class="stat__label">Satisfacción</span></div>
+          <div class="stat reveal" style="--d:.16s"><span class="stat__num" data-count="50" data-suffix="+">0</span><span class="stat__label">Carreras analizadas</span></div>
+          <div class="stat reveal" style="--d:.24s"><span class="stat__num" data-count="5" data-prefix="&lt;" data-suffix=" min">0</span><span class="stat__label">Para tu resultado</span></div>
         </div>
       </div>
     </section>
 
-    <!-- ====================== CTA FINAL ====================== -->
+    <!-- CTA FINAL -->
     <section class="section">
       <div class="container">
         <div class="cta reveal">
           <div class="cta__glow" aria-hidden="true"></div>
           <h2 class="cta__title">Comienza hoy a descubrir tu futuro</h2>
-          <p class="cta__lead">Sin registros ni costos. Solo tú, 25 preguntas y una dirección clara.</p>
+          <p class="cta__lead">Regístrate gratis, responde 25 preguntas y obtén tu orientación profesional con IA.</p>
           <button class="btn btn--light btn--lg" data-action="start-test">Realizar Test</button>
         </div>
       </div>
@@ -212,6 +318,161 @@
     </div>
   </footer>
 
+  <!-- ====================== MODAL DE AUTENTICACIÓN ====================== -->
+  <div class="auth-overlay" id="authOverlay" aria-hidden="true" role="dialog" aria-modal="true" aria-label="Autenticación SmartPath">
+    <div class="auth-modal">
+      <!-- Glow decorativo -->
+      <div class="auth-modal__glow" aria-hidden="true"></div>
+
+      <!-- Encabezado -->
+      <div class="auth-modal__head">
+        <span class="brand__mark" aria-hidden="true" style="width:42px;height:42px;border-radius:14px;">
+          <svg viewBox="0 0 24 24" width="26" height="26"><path d="M12 2 4 6v6c0 5 3.4 8.5 8 10 4.6-1.5 8-5 8-10V6l-8-4Z" fill="url(#bgA)"/><path d="M9 12.5l2 2 4-4.5" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><defs><linearGradient id="bgA" x1="0" y1="0" x2="24" y2="24"><stop stop-color="#6C63FF"/><stop offset="1" stop-color="#22D3EE"/></linearGradient></defs></svg>
+        </span>
+        <div>
+          <h2 class="auth-modal__title">SmartPath <em>Student AI</em></h2>
+          <p class="auth-modal__sub">Tu orientación profesional personalizada</p>
+        </div>
+        <button class="auth-modal__close" id="authClose" aria-label="Cerrar">
+          <svg viewBox="0 0 24 24" width="20" height="20"><path d="M6 6l12 12M18 6 6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        </button>
+      </div>
+
+      <!-- Tabs -->
+      <div class="auth-tabs" role="tablist" aria-label="Modo de acceso">
+        <button class="auth-tab is-active" id="tabLogin" role="tab" aria-selected="true" aria-controls="panelLogin">Iniciar sesión</button>
+        <button class="auth-tab" id="tabRegister" role="tab" aria-selected="false" aria-controls="panelRegister">Registrarse</button>
+        <span class="auth-tabs__indicator" id="tabIndicator" aria-hidden="true"></span>
+      </div>
+
+      <!-- ── PANEL LOGIN ── -->
+      <div class="auth-panel is-active" id="panelLogin" role="tabpanel" aria-labelledby="tabLogin">
+        <form class="auth-form" id="formLogin" novalidate>
+          <div class="field">
+            <label class="field__label" for="loginEmail">Correo electrónico</label>
+            <div class="field__wrap">
+              <svg class="field__icon" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="3" stroke="currentColor" stroke-width="2" fill="none"/><path d="M2 8l10 6 10-6" stroke="currentColor" stroke-width="2"/></svg>
+              <input class="field__input" id="loginEmail" type="email" name="email" placeholder="correo@ejemplo.com" autocomplete="email" required aria-required="true" />
+            </div>
+            <span class="field__error" id="loginEmailErr" role="alert"></span>
+          </div>
+
+          <div class="field">
+            <label class="field__label" for="loginPassword">Contraseña</label>
+            <div class="field__wrap">
+              <svg class="field__icon" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><rect x="3" y="11" width="18" height="11" rx="2" stroke="currentColor" stroke-width="2" fill="none"/><path d="M7 11V7a5 5 0 0 1 10 0v4" stroke="currentColor" stroke-width="2"/></svg>
+              <input class="field__input" id="loginPassword" type="password" name="password" placeholder="Tu contraseña" autocomplete="current-password" required aria-required="true" />
+              <button type="button" class="field__eye" data-target="loginPassword" aria-label="Mostrar/ocultar contraseña">
+                <svg class="eye-show" viewBox="0 0 24 24" width="18" height="18"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7S1 12 1 12Z" stroke="currentColor" stroke-width="2" fill="none"/><circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="2" fill="none"/></svg>
+                <svg class="eye-hide" viewBox="0 0 24 24" width="18" height="18" style="display:none"><path d="M17.9 17.9A10.9 10.9 0 0 1 12 19C5 19 1 12 1 12a18.5 18.5 0 0 1 5.1-5.9M9.9 4.2A9.8 9.8 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.2 3.2M1 1l22 22" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/></svg>
+              </button>
+            </div>
+            <span class="field__error" id="loginPassErr" role="alert"></span>
+          </div>
+
+          <div class="auth-form__alert" id="loginAlert" aria-live="polite" hidden></div>
+
+          <button type="submit" class="btn btn--primary btn--full" id="loginSubmit">
+            <span class="btn-label">Iniciar sesión</span>
+            <span class="btn-spinner" hidden aria-hidden="true"></span>
+          </button>
+
+          <p class="auth-form__switch">¿No tienes cuenta? <button type="button" class="link" data-switch-tab="register">Regístrate gratis</button></p>
+        </form>
+      </div>
+
+      <!-- ── PANEL REGISTRO ── -->
+      <div class="auth-panel" id="panelRegister" role="tabpanel" aria-labelledby="tabRegister" hidden>
+        <form class="auth-form" id="formRegister" novalidate>
+          <div class="auth-form__row">
+            <div class="field">
+              <label class="field__label" for="regNombres">Nombres</label>
+              <div class="field__wrap">
+                <svg class="field__icon" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><circle cx="12" cy="8" r="4" stroke="currentColor" stroke-width="2" fill="none"/><path d="M4 20c0-3.3 3.6-6 8-6s8 2.7 8 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/></svg>
+                <input class="field__input" id="regNombres" type="text" name="nombres" placeholder="Juan Carlos" autocomplete="given-name" required aria-required="true" />
+              </div>
+              <span class="field__error" id="regNombresErr" role="alert"></span>
+            </div>
+            <div class="field">
+              <label class="field__label" for="regApellidos">Apellidos</label>
+              <div class="field__wrap">
+                <svg class="field__icon" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><circle cx="12" cy="8" r="4" stroke="currentColor" stroke-width="2" fill="none"/><path d="M4 20c0-3.3 3.6-6 8-6s8 2.7 8 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/></svg>
+                <input class="field__input" id="regApellidos" type="text" name="apellidos" placeholder="García López" autocomplete="family-name" required aria-required="true" />
+              </div>
+              <span class="field__error" id="regApellidosErr" role="alert"></span>
+            </div>
+          </div>
+
+          <div class="field">
+            <label class="field__label" for="regPais">País</label>
+            <div class="field__wrap">
+              <svg class="field__icon" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="2" fill="none"/><path d="M2 12h20M12 2a15 15 0 0 1 0 20M12 2a15 15 0 0 0 0 20" stroke="currentColor" stroke-width="2" fill="none"/></svg>
+              <select class="field__input field__select" id="regPais" name="pais" required aria-required="true">
+                <option value="">Selecciona tu país…</option>
+                <option>Perú</option><option>Argentina</option><option>Bolivia</option>
+                <option>Brasil</option><option>Chile</option><option>Colombia</option>
+                <option>Costa Rica</option><option>Cuba</option><option>Ecuador</option>
+                <option>El Salvador</option><option>España</option><option>Guatemala</option>
+                <option>Honduras</option><option>México</option><option>Nicaragua</option>
+                <option>Panamá</option><option>Paraguay</option><option>República Dominicana</option>
+                <option>Uruguay</option><option>Venezuela</option><option>Otro</option>
+              </select>
+            </div>
+            <span class="field__error" id="regPaisErr" role="alert"></span>
+          </div>
+
+          <div class="field">
+            <label class="field__label" for="regEmail">Correo electrónico</label>
+            <div class="field__wrap">
+              <svg class="field__icon" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="3" stroke="currentColor" stroke-width="2" fill="none"/><path d="M2 8l10 6 10-6" stroke="currentColor" stroke-width="2"/></svg>
+              <input class="field__input" id="regEmail" type="email" name="email" placeholder="correo@ejemplo.com" autocomplete="email" required aria-required="true" />
+            </div>
+            <span class="field__error" id="regEmailErr" role="alert"></span>
+          </div>
+
+          <div class="field">
+            <label class="field__label" for="regPassword">Contraseña</label>
+            <div class="field__wrap">
+              <svg class="field__icon" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><rect x="3" y="11" width="18" height="11" rx="2" stroke="currentColor" stroke-width="2" fill="none"/><path d="M7 11V7a5 5 0 0 1 10 0v4" stroke="currentColor" stroke-width="2"/></svg>
+              <input class="field__input" id="regPassword" type="password" name="password" placeholder="Mínimo 8 caracteres" autocomplete="new-password" required aria-required="true" />
+              <button type="button" class="field__eye" data-target="regPassword" aria-label="Mostrar/ocultar contraseña">
+                <svg class="eye-show" viewBox="0 0 24 24" width="18" height="18"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7S1 12 1 12Z" stroke="currentColor" stroke-width="2" fill="none"/><circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="2" fill="none"/></svg>
+                <svg class="eye-hide" viewBox="0 0 24 24" width="18" height="18" style="display:none"><path d="M17.9 17.9A10.9 10.9 0 0 1 12 19C5 19 1 12 1 12a18.5 18.5 0 0 1 5.1-5.9M9.9 4.2A9.8 9.8 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.2 3.2M1 1l22 22" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/></svg>
+              </button>
+            </div>
+            <div class="pass-strength" id="passStrength" aria-live="polite">
+              <div class="pass-strength__bar"><span id="passStrengthBar"></span></div>
+              <span class="pass-strength__label" id="passStrengthLabel"></span>
+            </div>
+            <span class="field__error" id="regPassErr" role="alert"></span>
+          </div>
+
+          <div class="field">
+            <label class="field__label" for="regConfirm">Confirmar contraseña</label>
+            <div class="field__wrap">
+              <svg class="field__icon" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><rect x="3" y="11" width="18" height="11" rx="2" stroke="currentColor" stroke-width="2" fill="none"/><path d="M7 11V7a5 5 0 0 1 10 0v4" stroke="currentColor" stroke-width="2"/></svg>
+              <input class="field__input" id="regConfirm" type="password" name="confirm" placeholder="Repite tu contraseña" autocomplete="new-password" required aria-required="true" />
+              <button type="button" class="field__eye" data-target="regConfirm" aria-label="Mostrar/ocultar contraseña">
+                <svg class="eye-show" viewBox="0 0 24 24" width="18" height="18"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7S1 12 1 12Z" stroke="currentColor" stroke-width="2" fill="none"/><circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="2" fill="none"/></svg>
+                <svg class="eye-hide" viewBox="0 0 24 24" width="18" height="18" style="display:none"><path d="M17.9 17.9A10.9 10.9 0 0 1 12 19C5 19 1 12 1 12a18.5 18.5 0 0 1 5.1-5.9M9.9 4.2A9.8 9.8 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.2 3.2M1 1l22 22" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/></svg>
+              </button>
+            </div>
+            <span class="field__error" id="regConfirmErr" role="alert"></span>
+          </div>
+
+          <div class="auth-form__alert" id="registerAlert" aria-live="polite" hidden></div>
+
+          <button type="submit" class="btn btn--primary btn--full" id="registerSubmit">
+            <span class="btn-label">Crear cuenta gratis</span>
+            <span class="btn-spinner" hidden aria-hidden="true"></span>
+          </button>
+
+          <p class="auth-form__switch">¿Ya tienes cuenta? <button type="button" class="link" data-switch-tab="login">Inicia sesión</button></p>
+        </form>
+      </div>
+    </div>
+  </div>
+
   <!-- ====================== APP: WIZARD ENCUESTA ====================== -->
   <div class="app" id="app" aria-hidden="true" role="dialog" aria-modal="true" aria-label="Test vocacional inteligente">
     <div class="app__bar">
@@ -222,12 +483,10 @@
           </span>
           <span class="brand__name">SmartPath</span>
         </div>
-
         <div class="progress" id="progressWrap">
           <div class="progress__track"><div class="progress__bar" id="progressBar"></div></div>
           <span class="progress__label" id="progressLabel">Pregunta 1 de 25</span>
         </div>
-
         <button class="app__close" id="appClose" aria-label="Cerrar test">
           <svg viewBox="0 0 24 24" width="22" height="22"><path d="M6 6l12 12M18 6 6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
         </button>
@@ -236,7 +495,6 @@
 
     <div class="app__stage">
       <div class="container">
-        <!-- Pantalla de preguntas -->
         <div class="quiz" id="quiz">
           <span class="quiz__category" id="quizCategory">Intereses</span>
           <h2 class="quiz__question" id="quizQuestion">Cargando…</h2>
@@ -253,20 +511,67 @@
             </button>
           </div>
         </div>
-
-        <!-- Pantalla de análisis (loading) -->
         <div class="analyzing" id="analyzing" hidden>
           <div class="analyzing__ring" aria-hidden="true"><span></span><span></span><span></span></div>
           <h2>Analizando tu perfil…</h2>
           <p id="analyzingStep">Procesando respuestas</p>
         </div>
-
-        <!-- Pantalla de resultados -->
         <div class="results" id="results" hidden></div>
       </div>
     </div>
   </div>
 
+  <!-- ====================== SCRIPTS ====================== -->
+  <!-- Firebase SDK (módulos ESM via CDN) -->
+  <script type="module">
+    import { initializeApp }          from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+    import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword,
+             signOut, onAuthStateChanged, setPersistence, browserLocalPersistence }
+           from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+    import { getFirestore, doc, setDoc, updateDoc, serverTimestamp }
+           from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+    /* ── Esperar a que firebase-config.js cargue el objeto de config ── */
+    const cfg = window.FIREBASE_CONFIG;
+    const app  = initializeApp(cfg);
+    const auth = getAuth(app);
+    const db   = getFirestore(app);
+
+    await setPersistence(auth, browserLocalPersistence);
+
+    /* Exponer funciones al scope global para script.js */
+    window._fb = {
+      /* Registro */
+      async register({ email, password, nombres, apellidos, pais }) {
+        const cred = await createUserWithEmailAndPassword(auth, email, password);
+        await setDoc(doc(db, "users", cred.user.uid), {
+          uid: cred.user.uid, nombres, apellidos, pais, email,
+          fechaRegistro: serverTimestamp(), ultimoAcceso: serverTimestamp()
+        });
+        return cred.user;
+      },
+      /* Login */
+      async login({ email, password }) {
+        const cred = await signInWithEmailAndPassword(auth, email, password);
+        await updateDoc(doc(db, "users", cred.user.uid), { ultimoAcceso: serverTimestamp() });
+        return cred.user;
+      },
+      /* Logout */
+      async logout() { await signOut(auth); },
+      /* Guardar resultado del test */
+      async saveResult({ uid, carreraRecomendada, afinidad }) {
+        const ref = doc(db, "test_results", `${uid}_${Date.now()}`);
+        await setDoc(ref, { uid, carreraRecomendada, afinidad, fecha: serverTimestamp() });
+      },
+      /* Observer de sesión */
+      onAuth(cb) { return onAuthStateChanged(auth, cb); }
+    };
+
+    /* Disparar evento para que script.js sepa que Firebase está listo */
+    window.dispatchEvent(new Event("fb:ready"));
+  </script>
+
+  <script src="firebase-config.js"></script>
   <script src="script.js"></script>
   <script src="chatbot.js"></script>
 </body>
